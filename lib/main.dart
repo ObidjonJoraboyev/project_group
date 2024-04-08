@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:project_group/screens/card/card_screen.dart';
 import 'package:project_group/blocs/backend_bloc/backend_bloc.dart';
-import 'package:project_group/screens/home_screen.dart';
-
 import 'blocs/front_cards/card_bloc.dart';
 import 'blocs/front_cards/card_event.dart';
 import 'data/card_repo/cards_repo.dart';
@@ -56,7 +55,7 @@ class MyApp extends StatelessWidget {
           home: child,
         );
       },
-      child: HomeScreen(),
+      child: const CardScreen(),
     );
   }
 }
