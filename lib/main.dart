@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:project_group/screens/home_screen.dart';
+import 'package:project_group/screens/card/card_screen.dart';
 
 void main() => runApp(const MyApp());
 
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
           home: child,
         );
       },
-      child: const HomeScreen(),
+      child: const CardScreen(),
     );
   }
 }
