@@ -5,6 +5,7 @@ import 'package:project_group/blocs/front_cards/card_bloc.dart';
 import 'package:project_group/blocs/front_cards/card_state.dart';
 import 'package:project_group/screens/card/widgets/card_items.dart';
 import 'package:project_group/screens/card/widgets/services_items.dart';
+import 'package:project_group/screens/transfer/transfer_screen.dart';
 import 'package:project_group/utils/images/app_images.dart';
 import 'package:project_group/utils/size/size_utils.dart';
 
@@ -117,6 +118,12 @@ class _CardScreenState extends State<CardScreen> {
                           title: titles[index],
                           isSelected: activeIndex == index,
                           onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const TransferScreen(),
+                              ),
+                            );
                             setState(() {
                               activeIndex = index;
                             });
@@ -136,6 +143,7 @@ class _CardScreenState extends State<CardScreen> {
                         state.cards.length,
                         (index) => CardItems(
                           cardModel: state.cards[index],
+                          onTap: () {},
                         ),
                       ),
                     ],

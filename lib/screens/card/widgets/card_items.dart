@@ -6,9 +6,10 @@ import 'package:project_group/utils/images/app_images.dart';
 import 'package:project_group/utils/size/size_utils.dart';
 
 class CardItems extends StatelessWidget {
-  const CardItems({super.key, required this.cardModel});
+  const CardItems({super.key, required this.cardModel, required this.onTap});
 
   final CardModel cardModel;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
