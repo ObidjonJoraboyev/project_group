@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:project_group/data/models/card_model.dart';
 import 'package:project_group/utils/images/app_images.dart';
 import 'package:project_group/utils/size/size_utils.dart';
 
 class CardItems extends StatelessWidget {
-  const CardItems({super.key});
+  const CardItems({super.key, required this.cardModel});
+
+  final CardModel cardModel;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +28,7 @@ class CardItems extends StatelessWidget {
           Row(
             children: [
               Text(
-                "Current Balance",
+                cardModel.cardName,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 13.sp,
@@ -37,7 +40,7 @@ class CardItems extends StatelessWidget {
             ],
           ),
           Text(
-            "900000 UZS",
+            "${cardModel.amount} UZS",
             style: TextStyle(
               color: Colors.white,
               fontSize: 30.sp,
@@ -48,7 +51,7 @@ class CardItems extends StatelessWidget {
           Row(
             children: [
               Text(
-                "5282 3456 7890 1289",
+                cardModel.cardNumber,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 17.sp,
@@ -57,7 +60,7 @@ class CardItems extends StatelessWidget {
               ),
               const Spacer(),
               Text(
-                "09/25",
+                cardModel.expireDate,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 13.sp,
