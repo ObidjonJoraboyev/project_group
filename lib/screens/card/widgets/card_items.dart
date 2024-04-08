@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:project_group/data/models/card_model.dart';
 import 'package:project_group/utils/images/app_images.dart';
 import 'package:project_group/utils/size/size_utils.dart';
@@ -41,7 +42,7 @@ class CardItems extends StatelessWidget {
             ],
           ),
           Text(
-            "${cardModel.amount} UZS",
+            NumberFormat.currency(locale: "uz").format(cardModel.amount),
             style: TextStyle(
               color: Colors.white,
               fontSize: 30.sp,
