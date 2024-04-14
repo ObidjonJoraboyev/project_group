@@ -28,120 +28,142 @@ class _CardScreenState extends State<CardScreen> {
       body: BlocConsumer<UserBloc, UserState>(
         builder: (context, state) {
           if (state is UserSuccessState) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                72.getH(),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 25.w),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 51.w,
-                        height: 51.h,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12.r),
-                          border: Border.all(
-                            color: Colors.white,
-                            width: 1.w,
+            return SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  activeIndex != 1 ? 72.getH() : 25.getH(),
+                  activeIndex != 1
+                      ? Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 25.w),
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 51.w,
+                                height: 51.h,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12.r),
+                                  border: Border.all(
+                                    color: Colors.white,
+                                    width: 1.w,
+                                  ),
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(12.r),
+                                  child: Image.asset(
+                                    AppImages.avatar,
+                                    width: 51.w,
+                                    height: 51.h,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                              16.getW(),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Goog evening",
+                                    style: TextStyle(
+                                      color: const Color(0xFF60708F),
+                                      fontSize: 13.sp,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  4.getH(),
+                                  Text(
+                                    "Neha Kapoor",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w800,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const Spacer(),
+                              IconButton(
+                                onPressed: () {},
+                                icon: Icon(
+                                  Icons.notification_add,
+                                  color: Colors.white,
+                                  size: 20.sp,
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(12.r),
-                          child: Image.asset(
-                            AppImages.avatar,
-                            width: 51.w,
-                            height: 51.h,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
+                        )
+                      : const SizedBox(),
+                  30.getH(),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 25.w),
+                    child: Text(
+                      "Services",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w800,
                       ),
-                      16.getW(),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Goog evening",
-                            style: TextStyle(
-                              color: const Color(0xFF60708F),
-                              fontSize: 13.sp,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          4.getH(),
-                          Text(
-                            "Neha Kapoor",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w800,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const Spacer(),
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.notification_add,
-                          color: Colors.white,
-                          size: 20.sp,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                34.getH(),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 25.w),
-                  child: Text(
-                    "Services",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w800,
                     ),
                   ),
-                ),
-                17.getH(),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      25.getW(),
-                      ...List.generate(
-                        titles.length,
-                        (index) => ServicesItems(
-                          icon: icons[index],
-                          title: titles[index],
-                          isSelected: activeIndex == index,
-                          onTap: () {
-                            setState(() {
-                              activeIndex = index;
-                            });
-                          },
+                  17.getH(),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        25.getW(),
+                        ...List.generate(
+                          titles.length,
+                          (index) => ServicesItems(
+                            icon: icons[index],
+                            title: titles[index],
+                            isSelected: activeIndex == index,
+                            onTap: () {
+                              setState(() {
+                                activeIndex = index;
+                              });
+                            },
+                          ),
                         ),
-                      ),
-                      6.getW(),
-                    ],
+                        6.getW(),
+                      ],
+                    ),
                   ),
-                ),
-                68.getH(),
-                SizedBox(
-                  height: 215.h,
-                  child: PageView(
-                    children: [
-                      ...List.generate(
-                        state.cards.length,
-                        (index) => CardItems(
-                          cardModel: state.cards[index],
+                  40.getH(),
+                  SizedBox(
+                    height: 215.h,
+                    child: PageView(
+                      children: [
+                        ...List.generate(
+                          state.cards.length,
+                          (index) => CardItems(
+                            cardModel: state.cards[index],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  activeIndex == 1
+                      ? SizedBox(
+                          height: 215.h,
+                          child: PageView(
+                            children: [
+                              ...List.generate(
+                                state.cards.length,
+                                (index) => CardItems(
+                                  cardModel: state.cards[index],
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : const SizedBox(),
+                ],
+              ),
             );
           } else if (state is UserErrorState) {
             return const Center(
