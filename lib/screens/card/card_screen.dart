@@ -18,6 +18,9 @@ class CardScreen extends StatefulWidget {
 class _CardScreenState extends State<CardScreen> {
   int activeIndex = 0;
 
+  int activeFirstPage = -1;
+  int activeSecondPage = -1;
+
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
@@ -134,10 +137,15 @@ class _CardScreenState extends State<CardScreen> {
                   SizedBox(
                     height: 215.h,
                     child: PageView(
+                      onPageChanged: (v) {
+                        activeFirstPage = v;
+                        setState(() {});
+                      },
                       children: [
                         ...List.generate(
                           state.cards.length,
                           (index) => CardItems(
+                            check: false,
                             cardModel: state.cards[index],
                           ),
                         ),
@@ -148,18 +156,51 @@ class _CardScreenState extends State<CardScreen> {
                     height: 30,
                   ),
                   activeIndex == 1
-                      ? SizedBox(
-                          height: 215.h,
-                          child: PageView(
-                            children: [
-                              ...List.generate(
-                                state.cards.length,
-                                (index) => CardItems(
-                                  cardModel: state.cards[index],
-                                ),
+                      ? Column(
+                          children: [
+                            SizedBox(
+                              height: 215.h,
+                              child: PageView(
+                                onPageChanged: (v) {
+                                  activeSecondPage = v;
+                                  setState(() {});
+                                },
+                                children: [
+                                  ...List.generate(
+                                    state.cards.length,
+                                    (index) => CardItems(
+                                      check:
+                                          activeFirstPage == activeSecondPage,
+                                      cardModel: state.cards[index],
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
+                            ),
+                            const SizedBox(
+                              height: 25,
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 32),
+                              child: TextField(
+                                style: const TextStyle(color: Colors.white),
+                                decoration: InputDecoration(
+
+                                    contentPadding:
+                                        const EdgeInsets.symmetric(horizontal: 12),
+                                    border: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        color: Color(0xFF272B40)
+                                      ),
+                                        borderRadius:
+                                            BorderRadius.circular(12))),
+                              ),
+                            ),
+                            TextButton(
+                                onPressed: () {}, child: const Text("Submit")),
+                            30.getH()
+                          ],
                         )
                       : const SizedBox(),
                 ],
@@ -193,3 +234,16 @@ List<String> titles = [
   "Receive\nMoney",
   "Go to\nWallet",
 ];
+
+class SizedBoxForStateLess extends StatelessWidget {
+  const SizedBoxForStateLess({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: Column(
+        children: [],
+      ),
+    );
+  }
+}
