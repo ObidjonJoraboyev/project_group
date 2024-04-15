@@ -167,7 +167,10 @@ class _CardScreenState extends State<CardScreen> {
             ),
           );
         },
-        child: const Icon(Icons.add),
+        child: const Icon(
+          Icons.add,
+          size: 30,
+        ),
       ),
     );
   }
