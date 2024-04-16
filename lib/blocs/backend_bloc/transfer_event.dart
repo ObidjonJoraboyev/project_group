@@ -6,5 +6,5 @@ class SendMoneyEvent extends TransferEvent {
   final CardModel toCardModel;
   final CardModel fromCardModel;
 
-  SendMoneyEvent({required this.toCardModel,required this.fromCardModel});
+  SendMoneyEvent({required this.toCardModel, required this.fromCardModel});
 }

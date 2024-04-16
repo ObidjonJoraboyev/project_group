@@ -39,6 +39,7 @@ dependencies:
   dio: ^5.4.2+1
   flutter_screenutil: ^5.9.0
   flutter_svg: ^2.0.10+1
+  flutter_local_notifications: ^17.0.1
 
 dev_dependencies:
   flutter_test:

@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:project_group/blocs/front_cards/card_bloc.dart';
+import 'package:project_group/blocs/front_cards/card_event.dart';
 import 'package:project_group/blocs/front_cards/card_state.dart';
 import 'package:project_group/screens/card/widgets/card_items.dart';
 import 'package:project_group/screens/card/widgets/services_items.dart';
+import 'package:project_group/screens/widgets/universal_button.dart';
 import 'package:project_group/utils/images/app_images.dart';
 import 'package:project_group/utils/size/size_utils.dart';
+
+import '../../data/models/notification_model.dart';
+import '../../services/notification_service.dart';
 
 class CardScreen extends StatefulWidget {
   const CardScreen({super.key});
@@ -17,9 +22,13 @@ class CardScreen extends StatefulWidget {
 
 class _CardScreenState extends State<CardScreen> {
   int activeIndex = 0;
+  TextEditingController controller = TextEditingController();
+  int activeFirstPage = 0;
+  int activeSecondPage = 0;
 
-  int activeFirstPage = -1;
-  int activeSecondPage = -1;
+  int tempNum = 0;
+
+  FocusNode focusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -184,21 +193,80 @@ class _CardScreenState extends State<CardScreen> {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 32),
                               child: TextField(
+                                focusNode: focusNode,
+                                keyboardType: TextInputType.number,
+                                controller: controller,
                                 style: const TextStyle(color: Colors.white),
                                 decoration: InputDecoration(
-
-                                    contentPadding:
-                                        const EdgeInsets.symmetric(horizontal: 12),
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        horizontal: 12),
                                     border: OutlineInputBorder(
-                                      borderSide: const BorderSide(
-                                        color: Color(0xFF272B40)
-                                      ),
+                                        borderSide: const BorderSide(
+                                            color: Color(0xFF272B40)),
                                         borderRadius:
                                             BorderRadius.circular(12))),
                               ),
                             ),
-                            TextButton(
-                                onPressed: () {}, child: const Text("Submit")),
+                            SizedBox(
+                              height: 12,
+                            ),
+                            UniversalButton(
+                                child: "Send",
+                                isSelect: true,
+                                onTap: () {
+                                  focusNode.unfocus();
+
+                                  if (activeFirstPage != activeSecondPage &&
+                                      state.cards[activeFirstPage].amount >
+                                          double.parse(controller.text)) {
+                                    context.read<UserBloc>().add(
+                                        UpdateUserInfoEvent(
+                                            userModel: state
+                                                .cards[activeSecondPage]
+                                                .copyWith(
+                                                    amount: state
+                                                            .cards[
+                                                                activeSecondPage]
+                                                            .amount +
+                                                        double.parse(
+                                                            controller.text))));
+                                    context.read<UserBloc>().add(
+                                        UpdateUserInfoEvent(
+                                            userModel: state
+                                                .cards[activeFirstPage]
+                                                .copyWith(
+                                                    amount: state
+                                                            .cards[
+                                                                activeFirstPage]
+                                                            .amount -
+                                                        double.parse(
+                                                            controller.text))));
+                                    NotificationService.notificationService
+                                        .showNotification(
+                                            notificationModel: NotificationModel(
+                                                name:
+                                                    "O'tkazma ${controller.text} UZS",
+                                                id: tempNum,
+                                                body:
+                                                    "From: ${state.cards[activeFirstPage].ownerName},\nTo: ${state.cards[activeSecondPage].ownerName}"));
+                                    tempNum++;
+                                    activeIndex = 0;
+                                  }
+
+                                  if (activeFirstPage != activeSecondPage &&
+                                      state.cards[activeFirstPage].amount <
+                                          double.parse(controller.text)) {
+                                    NotificationService.notificationService
+                                        .showNotification(
+                                            notificationModel: NotificationModel(
+                                                name:
+                                                    "O'tkazma Muvaffaqiyatsiz",
+                                                id: tempNum,
+                                                body:
+                                                    "Mablag' ${double.parse(controller.text) - state.cards[activeFirstPage].amount} yetarli emas."));
+                                  }
+                                  controller.clear();
+                                }),
                             30.getH()
                           ],
                         )
